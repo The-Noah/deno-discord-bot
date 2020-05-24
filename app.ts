@@ -30,7 +30,7 @@ client.on("ready", () => {
   client.modifyPresence({
     status: "online",
     game: {
-      name: "!help",
+      name: `${config.prefix}help`,
       type: 2
     }
   })
