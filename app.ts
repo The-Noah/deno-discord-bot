@@ -54,7 +54,7 @@ console.log(`${commands.length} command${commands.length === 1 ? "" : "s"}, pref
 const client = new Coward(Deno.env.get("TOKEN") || "");
 
 client.on("ready", () => {
-  console.log(`invite URL: https://discord.com/oauth2/authorize?client_id=${Deno.env.get("CLIENT_ID")}&scope=bot&permissions=3136`);
+  console.log(`invite URL: https://discord.com/oauth2/authorize?client_id=${Deno.env.get("CLIENT_ID")}&scope=bot`);
 
   client.modifyPresence({
     status: "online",
