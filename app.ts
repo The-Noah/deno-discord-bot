@@ -65,7 +65,13 @@ client.on("ready", () => {
   });
 });
 
+const mentionRegex = new RegExp(`<@&${Deno.env.get("BOT_ID")}>`);
+
 client.on("messageCreate", (message: Message) => {
+  if(mentionRegex.test(message.content)){
+    return client.postMessage(message.channel.id, `My prefix is \`${config.prefix}\`. For help, send \`${config.prefix}help\`.`);
+  }
+
   if(!message.content.startsWith(config.prefix)){
     return;
   }
