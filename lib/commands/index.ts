@@ -6,3 +6,4 @@ import "./joke.ts";
 import "./info.ts";
 import "./coin-flip.ts";
 import "./random-number.ts";
+import "./geek-joke.ts";
