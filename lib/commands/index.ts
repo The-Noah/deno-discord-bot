@@ -8,3 +8,4 @@ import "./coin-flip.ts";
 import "./random-number.ts";
 import "./geek-joke.ts";
 import "./chuck-norris.ts";
+import "./be-like-bill.ts";
