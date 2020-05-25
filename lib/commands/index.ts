@@ -9,3 +9,4 @@ import "./random-number.ts";
 import "./geek-joke.ts";
 import "./chuck-norris.ts";
 import "./be-like-bill.ts";
+import "./should-i.ts";
