@@ -6,18 +6,20 @@ commands.push({
   name: "joke",
   description: "Get a dad joke",
   execute: async (client: Coward, message: Message, args: string[]) => {
-    if(args.length === 1){
-      return client.postMessage(message.channel.id, (await fetch(`https://icanhazdadjoke.com/j/${args[0]}`, {
-        headers: {
-          accept: "application/json"
-        }
-      }).then((res) => res.json())).joke);
-    }
-
-    client.postMessage(message.channel.id, (await fetch("https://icanhazdadjoke.com/", {
+    const joke = await fetch(`https://icanhazdadjoke.com/${args.length === 1 ? `j/${args[0]}` : ""}`, {
       headers: {
         accept: "application/json"
       }
-    }).then((res) => res.json())).joke);
+    }).then((res) => res.json());
+
+    client.postMessage(message.channel.id, {
+      embed: {
+        color: 0x0099ff,
+        description: joke.joke,
+        footer: {
+          text: `id: ${joke.id}`
+        },
+      }
+    });
   }
 });
