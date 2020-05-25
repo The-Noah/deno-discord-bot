@@ -12,3 +12,4 @@ import "./be-like-bill.ts";
 import "./should-i.ts";
 import "./cat.ts";
 import "./kitten.ts";
+import "./xkcd.ts";
