@@ -1,4 +1,4 @@
-import {Coward, Message} from "https://deno.land/x/coward/mod.ts";
+import {Message} from "https://deno.land/x/discordeno/mod.ts";
 
 import {commands} from "../command.ts";
 
@@ -6,7 +6,7 @@ commands.push({
   name: "kitten",
   aliases: ["kitten-picture", "kitten-photo"],
   description: "Random kitten picture",
-  execute: (client: Coward, message: Message, args: string[]) => {
+  execute: (message: Message, args: string[]) => {
     let width = Math.round(Math.random() * 1000);
     let height = Math.round(Math.random() * 1000);
 
@@ -20,6 +20,6 @@ commands.push({
       }
     }
 
-    client.postMessage(message.channel.id, `http://placekitten.com/${args.includes("g") ? "g/" : ""}${width}/${height}`);
+    message.channel.sendMessage(`http://placekitten.com/${args.includes("g") ? "g/" : ""}${width}/${height}`);
   }
 });

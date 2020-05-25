@@ -1,4 +1,4 @@
-import {Coward, Message} from "https://deno.land/x/coward/mod.ts";
+import {Message} from "https://deno.land/x/discordeno/mod.ts";
 
 import {commands} from "../command.ts";
 
@@ -6,7 +6,7 @@ commands.push({
   name: "Random Number",
   aliases: ["random", "number"],
   description: "Generate a random number between 1 and 10",
-  execute: (client: Coward, message: Message, args: string[]) => {
-    client.postMessage(message.channel.id, `${Math.floor(Math.random() * 10) + 1}`);
+  execute: (message: Message, args: string[]) => {
+    message.channel.sendMessage(`${Math.floor(Math.random() * 10) + 1}`);
   }
 });

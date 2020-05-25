@@ -1,4 +1,5 @@
-import {Coward, Message} from "https://deno.land/x/coward/mod.ts";
+import {createClient, editBotsStatus, Intents, Message, StatusType, ActivityType, cache} from "https://deno.land/x/discordeno/mod.ts";
+import MessageEmbed from "./lib/embed.ts";
 
 import {commands} from "./lib/command.ts";
 const config = JSON.parse(await Deno.readTextFile("config.json"));
@@ -26,67 +27,50 @@ commands.push({
   name: "Help",
   aliases: ["commands"],
   description: "Get help on how to use the bot",
-  execute: (client: Coward, message: Message, args: string[]) => {
-    const embed = {
-      color: 0x0099ff,
-      title: "Help",
-      author: {
-        name: "The Noah",
-        icon_url: "https://i.imgur.com/A0p4fgs.png",
-        url: "https://the-noah.github.io",
-      },
-      description: `Command prefix: ${config.prefix}`,
-      fields: [] as any[],
-      timestamp: new Date()
-    };
+  execute: (message: Message, args: string[]) => {
+    const embed = new MessageEmbed()
+      .setColor(0x0099ff)
+      .setTitle("Help")
+      .setAuthor("The Noah", "https://the-noah.github.io", "https://i.imgur.com/A0p4fgs.png")
+      .setDescription(`Command prefix: ${config.prefix}`);
 
     const command = commands.find((command) => command.name.replace(/ +/, "-").toLowerCase() === args[0] || command.aliases?.includes(args[0]));
     if(args.length === 1 && command){
-      embed.fields.push({
-        name: command.name,
-        value: command.description
-      });
+      embed.addField(command.name, command.description);
 
       if(command.aliases){
-        embed.fields.push({
-          name: "Aliases",
-          value: command.aliases.join(", ")
-        });
+        embed.addField("Aliases", command.aliases.join(", "));
       }
     }else{
       for(const command of commands){
-        embed.fields.push({
-          name: command.name,
-          value: command.description
-        });
+        embed.addField(command.name, command.description);
       }
     }
 
-    client.postMessage(message.channel.id, {embed});
+    message.channel.sendMessage({embed});
   }
 });
 
 console.log(`${commands.length} command${commands.length === 1 ? "" : "s"}, prefix is ${config.prefix}`);
-
-const client = new Coward(config.token || "");
-
-client.on("ready", () => {
-  console.log(`invite URL: https://discord.com/oauth2/authorize?client_id=${config.clientId}&scope=bot`);
-
-  client.modifyPresence({
-    status: "online",
-    game: {
-      name: `${config.prefix}help`,
-      type: 2
-    }
-  });
-});
-
 const mentionRegex = new RegExp(`<@!${config.clientId}>`);
 
-client.on("messageCreate", (message: Message) => {
+const ready = () => {
+  console.log(`invite URL: https://discord.com/oauth2/authorize?client_id=${config.clientId}&scope=bot`);
+
+  editBotsStatus(StatusType.Online, `${config.prefix}help`, ActivityType.Listening);
+};
+
+const messageCreate = (message: Message) => {
+  if(message.author.bot){
+    return;
+  }
+
+  console.log(cache);
+
+  console.log(cache.channels.get(message.channel_id));
+
   if(mentionRegex.test(message.content)){
-    return client.postMessage(message.channel.id, `<@!${message.author.id}> my prefix is \`${config.prefix}\`. For help, send \`${config.prefix}help\`.`);
+    return message.channel.sendMessage(`<@!${message.author.id}> my prefix is \`${config.prefix}\`. For help, send \`${config.prefix}help\`.`);
   }
 
   if(!message.content.startsWith(config.prefix)){
@@ -102,10 +86,18 @@ client.on("messageCreate", (message: Message) => {
 
   for(const command of commands){
     if(command.name.replace(/ +/, "-").toLowerCase() === commandName || command.aliases?.includes(commandName)){
-      command.execute(client, message, args);
+      command.execute(message, args);
       break;
     }
   }
-});
+};
 
-client.connect();
+createClient({
+  token: config.token,
+  botID: config.clientId,
+  intents: [Intents.GUILD_MESSAGES, Intents.DIRECT_MESSAGES],
+  eventHandlers: {
+    ready,
+    messageCreate
+  }
+});

@@ -1,11 +1,11 @@
-import {Coward, Message} from "https://deno.land/x/coward/mod.ts";
+import {Message} from "https://deno.land/x/discordeno/mod.ts";
 
 import {commands} from "../command.ts";
 
 commands.push({
   name: "XKCD",
   description: "Get an XKCD comic",
-  execute: async (client: Coward, message: Message, args: string[]) => {
+  execute: async (message: Message, args: string[]) => {
     const latest = await fetch("https://xkcd.com/info.0.json").then((res) => res.json());
     let id = 0;
 
@@ -26,7 +26,7 @@ commands.push({
 
     const comic = await fetch(`https://xkcd.com/${id}/info.0.json`).then((res) => res.json());
 
-    client.postMessage(message.channel.id, {
+    message.channel.sendMessage({
       embed: {
         color: 0x0099ff,
         title: comic.safe_title,
