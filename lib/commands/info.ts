@@ -5,7 +5,7 @@ import {commands} from "../command.ts";
 commands.push({
   name: "info",
   description: "Info about the bot",
-  execute: async (client: Coward, message: Message, args: string[]) => {
+  execute: (client: Coward, message: Message, args: string[]) => {
     client.postMessage(message.channel.id, {
       embed: {
         color: 0x0099ff,

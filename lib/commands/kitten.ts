@@ -6,7 +6,7 @@ commands.push({
   name: "kitten",
   aliases: ["kitten-picture", "kitten-photo"],
   description: "Random kitten picture",
-  execute: async (client: Coward, message: Message, args: string[]) => {
+  execute: (client: Coward, message: Message, args: string[]) => {
     let width = Math.round(Math.random() * 1000);
     let height = Math.round(Math.random() * 1000);
 
