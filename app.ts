@@ -1,7 +1,7 @@
 import "https://deno.land/x/denv/mod.ts";
 import {Coward, Message} from "https://deno.land/x/coward/mod.ts";
 
-import {commands} from "./lib/command.ts";
+import {commands, ICommand} from "./lib/command.ts";
 import "./lib/commands/index.ts";
 const config = JSON.parse(await Deno.readTextFile("config.json"));
 
@@ -10,14 +10,42 @@ commands.push({
   aliases: ["commands"],
   description: "Get help on how to use the bot",
   execute: (client: Coward, message: Message, args: string[]) => {
-    let help = "**__Help__**\n";
-    help += `Prefix: ${config.prefix}\n\n`;
+    const embed = {
+      color: 0x0099ff,
+      title: "Help",
+      author: {
+        name: "The Noah",
+        icon_url: "https://i.imgur.com/A0p4fgs.png",
+        url: "https://the-noah.github.io",
+      },
+      description: `Command prefix: ${config.prefix}`,
+      fields: [] as any[],
+      timestamp: new Date()
+    };
 
-    for(const command of commands){
-      help += `**${command.name}**: ${command.description}.\n`;
+    const command = commands.find((command) => command.name.replace(/ +/, "-").toLowerCase() === args[0] || command.aliases?.includes(args[0]));
+    if(args.length === 1 && command){
+      embed.fields.push({
+        name: command.name,
+        value: command.description
+      });
+
+      if(command.aliases){
+        embed.fields.push({
+          name: "Aliases",
+          value: command.aliases.join(", ")
+        });
+      }
+    }else{
+      for(const command of commands){
+        embed.fields.push({
+          name: command.name,
+          value: command.description
+        });
+      }
     }
 
-    client.postMessage(message.channel.id, help);
+    client.postMessage(message.channel.id, {embed});
   }
 });
 
@@ -50,7 +78,7 @@ client.on("messageCreate", (message: Message) => {
   }
 
   for(const command of commands){
-    if(command.name.replace(/ +/, "-").toLowerCase() === commandName || (command.aliases || []).indexOf(commandName) > -1){
+    if(command.name.replace(/ +/, "-").toLowerCase() === commandName || command.aliases?.includes(commandName)){
       command.execute(client, message, args);
       break;
     }

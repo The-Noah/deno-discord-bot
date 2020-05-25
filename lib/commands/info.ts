@@ -13,7 +13,7 @@ commands.push({
         url: "https://github.com/The-Noah/deno-discord-bot",
         author: {
           name: "The Noah",
-          icon_url: "https://avatars1.githubusercontent.com/u/35819660",
+          icon_url: "https://i.imgur.com/A0p4fgs.png",
           url: "https://the-noah.github.io",
         },
         description: "Discord bot created with Deno.",
