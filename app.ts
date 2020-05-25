@@ -7,6 +7,7 @@ const config = JSON.parse(await Deno.readTextFile("config.json"));
 
 commands.push({
   name: "Help",
+  aliases: ["commands"],
   description: "Get help on how to use the bot",
   execute: (client: Coward, message: Message, args: string[]) => {
     let help = "**__Help__**\n";
@@ -33,7 +34,7 @@ client.on("ready", () => {
       name: `${config.prefix}help`,
       type: 2
     }
-  })
+  });
 });
 
 client.on("messageCreate", (message: Message) => {
@@ -49,7 +50,7 @@ client.on("messageCreate", (message: Message) => {
   }
 
   for(const command of commands){
-    if(command.name.replace(/ +/, "-").toLowerCase() === commandName){
+    if(command.name.replace(/ +/, "-").toLowerCase() === commandName || (command.aliases || []).indexOf(commandName) > -1){
       command.execute(client, message, args);
       break;
     }
