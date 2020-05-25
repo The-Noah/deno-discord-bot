@@ -1,7 +1,6 @@
-import "https://deno.land/x/denv/mod.ts";
 import {Coward, Message} from "https://deno.land/x/coward/mod.ts";
 
-import {commands, ICommand} from "./lib/command.ts";
+import {commands} from "./lib/command.ts";
 import "./lib/commands/index.ts";
 const config = JSON.parse(await Deno.readTextFile("config.json"));
 
@@ -51,10 +50,10 @@ commands.push({
 
 console.log(`${commands.length} command${commands.length === 1 ? "" : "s"}, prefix is ${config.prefix}`);
 
-const client = new Coward(Deno.env.get("TOKEN") || "");
+const client = new Coward(config.token || "");
 
 client.on("ready", () => {
-  console.log(`invite URL: https://discord.com/oauth2/authorize?client_id=${Deno.env.get("CLIENT_ID")}&scope=bot`);
+  console.log(`invite URL: https://discord.com/oauth2/authorize?client_id=${config.clientId}&scope=bot`);
 
   client.modifyPresence({
     status: "online",
@@ -65,7 +64,7 @@ client.on("ready", () => {
   });
 });
 
-const mentionRegex = new RegExp(`<@!${Deno.env.get("CLIENT_ID")}>`);
+const mentionRegex = new RegExp(`<@!${config.clientId}>`);
 
 client.on("messageCreate", (message: Message) => {
   if(mentionRegex.test(message.content)){
