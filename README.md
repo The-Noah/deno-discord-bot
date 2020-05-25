@@ -1,8 +1,8 @@
 # Deno Discord Bot
 
-Run with: `deno run --allow-net --allow-read=config.json app.ts`.
+Run with: `deno run --allow-net --allow-read=. app.ts`.
 
-Or run without downloading: `deno run --allow-net --allow-read=config.json https://denopkg.com/The-Noah/deno-discord-bot/app.ts` - requires `-r` to update.
+Or run without downloading: `deno run --allow-net --allow-read=. https://denopkg.com/The-Noah/deno-discord-bot/app.ts` - requires `-r` to update.
 
 ## `config.json`
 

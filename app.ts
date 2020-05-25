@@ -1,8 +1,26 @@
 import {Coward, Message} from "https://deno.land/x/coward/mod.ts";
 
 import {commands} from "./lib/command.ts";
-import "./lib/commands/index.ts";
 const config = JSON.parse(await Deno.readTextFile("config.json"));
+
+const importDirectory = async (path: string): Promise<void> => {
+  const files = Deno.readDirSync(await Deno.realPath(path));
+
+  for(const file of files){
+    if(!file.name){
+      return
+    }
+
+    const currentPath = `${path}/${file.name}`;
+    if(file.isDirectory){
+      return importDirectory(currentPath);
+    }
+
+    await import(currentPath);
+  }
+};
+
+await Promise.all(["./lib/commands"].map((path) => importDirectory(path)));
 
 commands.push({
   name: "Help",
