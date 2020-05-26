@@ -65,10 +65,6 @@ const messageCreate = (message: Message) => {
     return;
   }
 
-  console.log(cache);
-
-  console.log(cache.channels.get(message.channel_id));
-
   if(mentionRegex.test(message.content)){
     return message.channel.sendMessage(`<@!${message.author.id}> my prefix is \`${config.prefix}\`. For help, send \`${config.prefix}help\`.`);
   }
@@ -95,7 +91,7 @@ const messageCreate = (message: Message) => {
 createClient({
   token: config.token,
   botID: config.clientId,
-  intents: [Intents.GUILD_MESSAGES, Intents.DIRECT_MESSAGES],
+  intents: [Intents.GUILD_MESSAGES, Intents.DIRECT_MESSAGES, Intents.GUILDS],
   eventHandlers: {
     ready,
     messageCreate
