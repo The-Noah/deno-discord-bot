@@ -1,6 +1,4 @@
 import {commands, MessageEmbed, createClient, editBotsStatus, Intents, Message, StatusType, ActivityType, sendMessage} from "./deps.ts";
-
-import {} from "./lib/command.ts";
 const config = JSON.parse(await Deno.readTextFile("config.json"));
 
 const importDirectory = async (path: string): Promise<void> => {
