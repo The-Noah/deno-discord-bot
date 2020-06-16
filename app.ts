@@ -1,4 +1,4 @@
-import {createClient, editBotsStatus, Intents, Message, StatusType, ActivityType, cache} from "https://deno.land/x/discordeno/mod.ts";
+import {createClient, editBotsStatus, Intents, Message, StatusType, ActivityType, sendMessage} from "https://deno.land/x/discordeno/mod.ts";
 import MessageEmbed from "./lib/embed.ts";
 
 import {commands} from "./lib/command.ts";
@@ -47,7 +47,7 @@ commands.push({
       }
     }
 
-    message.channel.sendMessage({embed});
+    sendMessage(message.channel, {embed});
   }
 });
 
@@ -66,7 +66,7 @@ const messageCreate = (message: Message) => {
   }
 
   if(mentionRegex.test(message.content)){
-    return message.channel.sendMessage(`<@!${message.author.id}> my prefix is \`${config.prefix}\`. For help, send \`${config.prefix}help\`.`);
+    return sendMessage(message.channel, `<@!${message.author.id}> my prefix is \`${config.prefix}\`. For help, send \`${config.prefix}help\`.`);
   }
 
   if(!message.content.startsWith(config.prefix)){
@@ -90,7 +90,6 @@ const messageCreate = (message: Message) => {
 
 createClient({
   token: config.token,
-  botID: config.clientId,
   intents: [Intents.GUILD_MESSAGES, Intents.DIRECT_MESSAGES, Intents.GUILDS],
   eventHandlers: {
     ready,

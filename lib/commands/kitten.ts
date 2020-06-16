@@ -1,4 +1,4 @@
-import {Message} from "https://deno.land/x/discordeno/mod.ts";
+import {Message, sendMessage} from "https://deno.land/x/discordeno/mod.ts";
 
 import {commands} from "../command.ts";
 
@@ -20,6 +20,6 @@ commands.push({
       }
     }
 
-    message.channel.sendMessage(`http://placekitten.com/${args.includes("g") ? "g/" : ""}${width}/${height}`);
+    sendMessage(message.channel, `http://placekitten.com/${args.includes("g") ? "g/" : ""}${width}/${height}`);
   }
 });

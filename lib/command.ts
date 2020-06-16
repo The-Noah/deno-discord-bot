@@ -1,4 +1,4 @@
-import {Message} from "https://deno.land/x/discordeno/mod.ts";
+import {Message, sendMessage} from "https://deno.land/x/discordeno/mod.ts";
 
 export interface ICommand{
   name: string;

@@ -1,4 +1,4 @@
-import {Message} from "https://deno.land/x/discordeno/mod.ts";
+import {Message, sendMessage} from "https://deno.land/x/discordeno/mod.ts";
 
 import {commands} from "../command.ts";
 
@@ -26,7 +26,7 @@ commands.push({
 
     const comic = await fetch(`https://xkcd.com/${id}/info.0.json`).then((res) => res.json());
 
-    message.channel.sendMessage({
+    sendMessage(message.channel, {
       embed: {
         color: 0x0099ff,
         title: comic.safe_title,

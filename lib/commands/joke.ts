@@ -1,4 +1,4 @@
-import {Message} from "https://deno.land/x/discordeno/mod.ts";
+import {Message, sendMessage} from "https://deno.land/x/discordeno/mod.ts";
 
 import {commands} from "../command.ts";
 
@@ -13,7 +13,7 @@ commands.push({
       }
     }).then((res) => res.json());
 
-    message.channel.sendMessage({
+    sendMessage(message.channel, {
       embed: {
         color: 0x0099ff,
         description: joke.joke,

@@ -1,4 +1,4 @@
-import {Message} from "https://deno.land/x/discordeno/mod.ts";
+import {Message, sendMessage} from "https://deno.land/x/discordeno/mod.ts";
 
 import {commands} from "../command.ts";
 
@@ -6,7 +6,7 @@ commands.push({
   name: "info",
   description: "Info about the bot",
   execute: (message: Message, args: string[]) => {
-    message.channel.sendMessage({
+    sendMessage(message.channel, {
       embed: {
         color: 0x0099ff,
         title: "Deno Discord Bot",
