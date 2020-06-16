@@ -8,5 +8,6 @@ You must have a Discord application for the bot. You can create a new one [here]
 
 | Property   | Description |
 | ---------- | ----------- |
+| `clientId` | Client ID of Discord application. |
 | `token`    | Token of Discord application bot. |
 | `prefix`   | Prefix used for commands. |
