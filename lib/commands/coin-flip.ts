@@ -1,6 +1,4 @@
-import {Message, sendMessage} from "https://deno.land/x/discordeno/mod.ts";
-
-import {commands} from "../command.ts";
+import {commands, Message, sendMessage} from "../../deps.ts";
 
 commands.push({
   name: "Coin Flip",

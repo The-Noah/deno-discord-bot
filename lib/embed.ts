@@ -1,4 +1,4 @@
-import {Embed_Image, Embed_Thumbnail, Embed_Author, Embed_Field, Embed_Footer} from "https://deno.land/x/discordeno/mod.ts";
+import {Embed_Image, Embed_Thumbnail, Embed_Author, Embed_Field, Embed_Footer} from "../deps.ts";
 
 export class MessageEmbed {
   image?: Embed_Image;
